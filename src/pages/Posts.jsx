@@ -44,25 +44,17 @@ export default function Posts() {
     return <div className={styles.error}>{error}</div>;
   }
 
-  if (!Array.isArray(posts)) {
-    return <div className={styles.error}>⚠️ Posts data is invalid</div>;
-  }
-
   if (posts.length === 0) {
-    return <div className={styles.empty}>📭 No posts yet. Create one!</div>;
+    return <div className={styles.empty}>No posts yet. Create one!</div>;
   }
-
-  const sortedPosts = [...posts].sort(
-    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-  );
 
   return (
     <div className={styles.wrapper}>
-      {sortedPosts.map((post, index) => (
+      {posts.map((post) => (
         <PostCard
-          key={post._id || post.id || index}
+          key={post.id}
           post={post}
-          onDelete={() => handleDelete(post._id || post.id)}
+          onDelete={() => handleDelete(post.id)}
         />
       ))}
     </div>

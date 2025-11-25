@@ -28,7 +28,7 @@ export default function Login() {
     (e) => {
       e.preventDefault();
       if (!validate()) {
-        toast.error("❌ Please fix validation errors");
+        toast.error(" Please fix validation errors");
         return;
       }
       setLoading(true);
@@ -36,9 +36,9 @@ export default function Login() {
         .unwrap()
         .then(() => {
           toast.success("✅ Logged in successfully");
-          navigate("/posts"); // 👈 автоматичний перехід після логіну
+          navigate("/posts");
         })
-        .catch((err) => toast.error(`❌ ${err}`))
+        .catch((err) => toast.error(` ${err}`))
         .finally(() => setLoading(false));
     },
     [dispatch, form, validate, navigate]

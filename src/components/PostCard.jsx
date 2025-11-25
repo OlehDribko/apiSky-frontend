@@ -1,36 +1,22 @@
-import {
-  Card,
-  CardContent,
-  CardActions,
-  Typography,
-  Button,
-} from "@mui/material";
+import styles from "./PostCard.module.css";
 
 export default function PostCard({ post, onDelete }) {
-  const id = post.id || post._id;
+  const formattedDate = new Date(post.createdAt).toLocaleString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   return (
-    <Card sx={{ mb: 2 }}>
-      <CardContent>
-        <Typography variant="h6">{post.title}</Typography>
-        <Typography variant="body2" sx={{ mt: 1, whiteSpace: "pre-wrap" }}>
-          {post.text}
-        </Typography>
-        {post.createdAt && (
-          <Typography
-            variant="caption"
-            color="text.secondary"
-            sx={{ display: "block", mt: 1 }}
-          >
-            {new Date(post.createdAt).toLocaleString()}
-          </Typography>
-        )}
-      </CardContent>
-      <CardActions>
-        <Button color="error" onClick={() => onDelete(id)}>
-          Delete
-        </Button>
-      </CardActions>
-    </Card>
+    <div className={styles.card}>
+      <h3 className={styles.title}>{post.title}</h3>
+      <p className={styles.text}>{post.text}</p>
+      <p className={styles.date}>{formattedDate}</p>
+      <button onClick={onDelete} className={styles.button}>
+        🗑️ Delete
+      </button>
+    </div>
   );
 }
