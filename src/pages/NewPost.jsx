@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost } from "../features/posts/postsSlice";
 import {
@@ -15,20 +15,23 @@ export default function NewPost() {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.posts);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!form.title.trim() || !form.text.trim()) {
-      toast.error("Title and text are required");
-      return;
-    }
-    try {
-      await dispatch(createPost(form)).unwrap();
-      toast.success("Post created successfully");
-      setForm({ title: "", text: "" });
-    } catch (err) {
-      toast.error(err || "Failed to create post");
-    }
-  };
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      if (!form.title.trim() || !form.text.trim()) {
+        toast.error("Title and text are required");
+        return;
+      }
+      try {
+        await dispatch(createPost(form)).unwrap();
+        toast.success("Post created successfully");
+        setForm({ title: "", text: "" });
+      } catch (err) {
+        toast.error(err || "Failed to create post");
+      }
+    },
+    [dispatch, form] // 👈 залежності
+  );
 
   return (
     <Box
