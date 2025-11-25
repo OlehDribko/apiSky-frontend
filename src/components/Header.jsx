@@ -1,18 +1,20 @@
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { logout } from "../features/auth/authSlice";
 import styles from "./Header.module.css";
 
 export default function Header() {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.auth);
   const location = useLocation();
-  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    dispatch(logout());
     navigate("/login");
   };
 
   const isActive = (path) => location.pathname === path;
-
   const logoTarget = token ? "/posts" : "/login";
 
   return (

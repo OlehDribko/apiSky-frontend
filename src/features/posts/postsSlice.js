@@ -46,14 +46,13 @@ export const deletePost = createAsyncThunk(
 const postsSlice = createSlice({
   name: "posts",
   initialState: {
-    items: [],
+    posts: [],
     loading: false,
     error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
-
       .addCase(fetchPosts.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -62,29 +61,27 @@ const postsSlice = createSlice({
         const sorted = action.payload
           .slice()
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        state.items = sorted;
+        state.posts = sorted;
         state.loading = false;
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.error = action.payload;
         state.loading = false;
       })
-
       .addCase(createPost.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(createPost.fulfilled, (state, action) => {
-        state.items.unshift(action.payload);
+        state.posts.unshift(action.payload);
         state.loading = false;
       })
       .addCase(createPost.rejected, (state, action) => {
         state.error = action.payload;
         state.loading = false;
       })
-
       .addCase(deletePost.fulfilled, (state, action) => {
-        state.items = state.items.filter(
+        state.posts = state.posts.filter(
           (p) => p.id !== action.payload && p._id !== action.payload
         );
       })
